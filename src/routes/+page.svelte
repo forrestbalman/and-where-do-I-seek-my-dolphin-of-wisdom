@@ -111,7 +111,7 @@
         </div>
     {:else}
         <div class="w-100 position-absolute top-50 start-50 translate-middle d-flex flex-column align-items-center" transition:fade>
-            <h1 class="display-1 text-center text-light mb-4">And Where Do I Seek The Dolphin Of Wisdom?</h1>
+            <h1 class="display-1 text-center text-light mb-4">And Where Do I Seek My Dolphin Of Wisdom?</h1>
             <button class="btn btn-lg btn-outline-light shadow-lg fs-2 fw-medium border border-3 border-light px-5 py-3" transition:fade={{ easing: cubicOut }} on:click={() => (start = true)}>Start</button>
         </div>
     {/if}
