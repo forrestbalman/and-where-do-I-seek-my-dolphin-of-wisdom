@@ -15,11 +15,13 @@
     let bgOpacity;
     let endPiece = false;
 
+    //set array when water level is fetched
     $: if (waterLevel) {
         panels = Array.from({ length: 144 }, () => ({ opacity: 0, color: randomGray() }));
         bgOpacity = linearConversion(waterLevel, 2, 8, 0, 1);
     }
 
+    //when start is true, start the base and animate
     $: if (start) {
         setTimeout(() => {
             base.play();
@@ -29,6 +31,7 @@
         setTimeout(animate, 3000);
     }
 
+    //initiate fade out when endPiece is true
     $: if (endPiece) {
         base.fade(1, 0, 10000);
 
@@ -37,6 +40,7 @@
         }, 10000);
     }
 
+    //tide fetching
     async function fetchTides() {
         const res = await fetch("https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=latest&station=9413450&product=water_level&datum=STND&time_zone=gmt&units=english&application=Forrest_Balman&format=json");
         const data = await res.json();
@@ -48,17 +52,20 @@
         }
     }
 
+    //linear conversion function
     function linearConversion(oldValue, oldMin, oldMax, newMin, newMax) {
         const oldRange = oldMax - oldMin;
         const newRange = newMax - newMin;
         return ((oldValue - oldMin) * newRange) / oldRange + newMin;
     }
 
+    //generates a random gray color for tiles
     function randomGray() {
         const num = Math.floor(Math.random() * 5) + 3;
         return `#${num}${num}${num}${num}${num}${num}`;
     }
 
+    //function that determines incidental click pitch and volume
     function randomClick() {
         const chance = Math.random() * (100 / waterLevel);
 
@@ -72,6 +79,7 @@
         }
     }
 
+    //master logic for animating tiles and playing audio
     function animate() {
         for (let i = 0; i < panels.length; i++) {
             panels[i].opacity = Math.random() * 0.4;
@@ -86,6 +94,7 @@
         setTimeout(animate, animationRate);
     }
 
+    //sets panel height and defines audio on mount
     onMount(() => {
         panelHeight = containerHeight / 12;
 
